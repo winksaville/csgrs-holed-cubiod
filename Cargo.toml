@@ -1,0 +1,11 @@
+[package]
+name = "holed-cuboid"
+version = "0.1.0"
+edition = "2024"
+authors = ["Wink Saville <wink@saville.com>"]
+
+[dependencies]
+clap = { version = "4.5.43", features = ["derive"] }
+#csgrs = { version = "0.20.1", features = ["parallel"] }
+csgrs = { version = "0.20.1" }
+nalgebra = "0.34.0"
