@@ -53,8 +53,10 @@ $ cargo install --path .
 
 The default output file is `holed-cuboid_l-20.00_w-10.00_h-5.00.obj`
 
-This can be visualized as a 3D model using `f3d holed-cuboid_l-20.00_w-10.00_h-5.00.obj`
-and converted to an image using `f3d holed-cuboid_l-20.00_w-10.00_h-5.00.obj --output holed-cuboid_l-20.00_w-10.00_h-5.00.png`
+This can be visualized as a 3D model using
+`f3d --up +z holed-cuboid_l-20.00_w-10.00_h-5.00.obj`
+and converted to an image using
+`f3d --up +z holed-cuboid_l-20.00_w-10.00_h-5.00.obj --output holed-cuboid_l-20.00_w-10.00_h-5.00.png`
 
 ### Examples
 
