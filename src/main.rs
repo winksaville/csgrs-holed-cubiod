@@ -18,15 +18,15 @@ enum OutputFormat {
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// width of the panel
-    #[arg(short, long, default_value = "10.0")]
-    width: Real,
-
-    /// length of the panel
+    /// length of the cuboid
     #[arg(short, long, default_value = "20.0")]
     length: Real,
 
-    /// height of the panel
+    /// width of the cuboid
+    #[arg(short, long, default_value = "10.0")]
+    width: Real,
+
+    /// height of the cuboid
     #[arg(short = 'H', long, default_value = "5.0")]
     height: Real,
 
@@ -35,9 +35,15 @@ struct Args {
     diameter: Real,
 
     /// number of segments to use when creating the tube, minimum is 3
-    #[arg(short, long, default_value = "3", value_parser = value_parser!(u32).range(3..), help = "The number of segments to use when creating the tube, minimum is 3")]
+    #[arg(
+        short,
+        long, default_value = "3",
+        value_parser = value_parser!(u32).range(3..),
+        help = "The number of segments to use when creating the tube, minimum is 3"
+    )]
     segments: u32,
 
+    /// Output format for the mesh file
     #[arg(
         short,
         long,
@@ -95,12 +101,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Write the result as an ASCII STL:
     let name = "holed-cuboid".to_owned()
-        + &format!("_w-{:.2}", args.width)
         + &format!("_l-{:.2}", args.length)
+        + &format!("_w-{:.2}", args.width)
         + &format!("_h-{:.2}", args.height)
         + &hole_diameter_file_name;
 
-    let (shape, file_name) = match args.output_format {
+    let shape: Vec<u8>;
+    let file_name: String;
+    (shape, file_name) = match args.output_format {
         OutputFormat::Amf => {
             let s = cuboid.to_amf(&name, "millimeter").into();
             let f = name + ".amf";
