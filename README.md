@@ -1,6 +1,6 @@
 # Holed Cuboid
 
-Create a cuboid with holes
+Create a cuboid with optoinally a hole
 
 
 ## Usage
@@ -14,13 +14,14 @@ Generate a cubiod mesh with holes and write it to an STL file
 Usage: holed-cuboid [OPTIONS]
 
 Options:
-  -w, --width <WIDTH>        width of the panel [default: 10.0]
-  -l, --length <LENGTH>      length of the panel [default: 20.0]
-  -H, --height <HEIGHT>      height of the panel [default: 5.0]
-  -d, --diameter <DIAMETER>  hole diameter, zero for no hole [default: 0]
-  -s, --segments <SEGMENTS>  The number of segments to use when creating the tube, minimum is 3 [default: 50]
-  -h, --help                 Print help
-  -V, --version              Print version
+  -w, --width <WIDTH>                  width of the panel [default: 10.0]
+  -l, --length <LENGTH>                length of the panel [default: 20.0]
+  -H, --height <HEIGHT>                height of the panel [default: 5.0]
+  -d, --diameter <DIAMETER>            hole diameter, zero for no hole [default: 0]
+  -s, --segments <SEGMENTS>            The number of segments to use when creating the tube, minimum is 3 [default: 3]
+  -o, --output-format <OUTPUT_FORMAT>  Output format for the mesh file [default: obj] [possible values: amf, dxf, obj, ply, stl-ascii, stl-binary]
+  -h, --help                           Print help
+  -V, --version                        Print version
   ```
 
 ## Build, run, install
@@ -33,32 +34,61 @@ $ cargo run
      Running `target/debug/holed-cuboid`
  arg.version: 0.1.0
 outside_dimenstions: [[10.0, 20.0, 5.0]]
-Writing STL file: holed-cuboid_w-10.00_l-20.00_h-5.00.stl
+Writing file: holed-cuboid_w-10.00_l-20.00_h-5.00.obj
 $ cargo install --path .
-  Installing holed-cuboid v0.1.0 (/home/wink/csgrs-holed-cubiod)
-  Installing /home/wink/.cargo/bin/holed-cuboid
-   Installed package `holed-cuboid v0.1.0 (/home/wink/csgrs-holed-cubiod)` (executable `holed-cuboid`)
+  Installing holed-cuboid v0.1.0 (/home/wink/data/prgs/3dprinting/csgrs-holed-cubiod)
+    Updating crates.io index
+     Locking 246 packages to latest Rust 1.89.0 compatible versions
+      Adding i_float v1.6.0 (available: v1.15.0)
+      Adding i_overlay v1.9.4 (available: v1.10.0)
+      Adding i_shape v1.6.0 (available: v1.14.0)
+    Finished `release` profile [optimized] target(s) in 0.58s
+   Replacing /home/wink/.cargo/bin/holed-cuboid
+    Replaced package `holed-cuboid v0.1.0 (/home/wink/data/prgs/3dprinting/csgrs-holed-cubiod)` with `holed-cuboid v0.1.0 (/home/wink/data/prgs/3dprinting/csgrs-holed-cubiod)` (executable `holed-cuboid`)
 ```
 
-Create cuboid with a hole and a of diameter 5.0
-Will be using default values for width, length, height and segments.
-```
-$ cargo run -- -d 5
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.10s
-     Running `target/debug/holed-cuboid -d 5`
- arg.version: 0.1.0
-outside_dimenstions: [[10.0, 20.0, 5.0]]
-Writing STL file: holed-cuboid_w-10.00_l-20.00_h-5.00_d-5.00.stl
-```
+
 
 ## Results
 
-The default output file is `cuboid_w-10.00_l-100.00_h-5.00.stl`
+The default output file is `holed-cuboid_w-10.00_l-20.00_h-5.00.obj`
 
-This can be visualized as a 3D model using `f3d cuboid_w-10.00_l-100.00_h-5.00.stl`
-and converted to an image using `f3d cuboid_w-10.00_l-100.00_h-5.00.stl --output cuboid_w-10.00_l-100.00_h-5.00.png`
+This can be visualized as a 3D model using `f3d holed-cuboid_w-10.00_l-100.00_h-5.00.obj`
+and converted to an image using `f3d holed-cuboid_w-10.00_l-100.00_h-5.00.obj --output holed-cuboid_w-10.00_l-100.00_h-5.00.png`
 
-#![cuboid](cuboid_w-10.00_l-100.00_h-5.00.png)
+### Examples
+
+Run with default values which will just be a cuboid with no hole.
+```
+$ holed-cuboid
+ arg.version: 0.1.0
+outside_dimenstions: [[10.0, 20.0, 5.0]]
+Writing file: holed-cuboid_w-10.00_l-20.00_h-5.00.obj
+```
+#![cuboid no hole](./holed-cuboid_w-10.00_l-20.00_h-5.00.png)
+
+---
+Create cuboid with a hole and a of diameter 5.0
+Will be using default values for width, length, height and segments
+and segments is 3 so the hole is a triangular tube.
+```
+$ holed-cuboid -d=5
+ arg.version: 0.1.0
+outside_dimenstions: [[10.0, 20.0, 5.0]]
+Writing file: holed-cuboid_w-10.00_l-20.00_h-5.00_s-3_d-5.00.obj
+```
+
+#![cuboid triangular hole](./holed-cuboid_w-10.00_l-20.00_h-5.00_s-3_d-5.00.png)
+
+Here we run with 50 segments so the hole is a circle.
+```
+$ holed-cuboid -d=5 -s=50
+ arg.version: 0.1.0
+outside_dimenstions: [[10.0, 20.0, 5.0]]
+Writing file: holed-cuboid_w-10.00_l-20.00_h-5.00_s-50_d-5.00.obj
+```
+
+#![cuboid curcular hole](./holed-cuboid_w-10.00_l-20.00_h-5.00_s-50_d-5.00.png)
 
 ## License
 
