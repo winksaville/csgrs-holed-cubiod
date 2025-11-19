@@ -4,8 +4,13 @@ version = "0.1.0"
 edition = "2024"
 authors = ["Wink Saville <wink@saville.com>"]
 
+[package.metadata.cargo-embed]
+build-info = true
+
 [dependencies]
 clap = { version = "4.5.43", features = ["derive"] }
 #csgrs = { version = "0.20.1", features = ["parallel"] }
-csgrs = { version = "0.20.1" }
-nalgebra = "0.34.0"
+#csgrs = { version = "0.20.1" }
+#csgrs = { path = "../csgrs" } # local path for development
+csgrs = {  git = "https://github.com/timschmidt/csgrs.git", rev = "278e0254d2c8bfffe2e9021fd8120dd9ee1f60bb" }
+nalgebra = "0.33" # for Vector3, use 0.33 so we're the same as csgrs
